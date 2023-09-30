@@ -10,6 +10,11 @@ router.get("/:cubeId/details", async (req, res) => {
   res.render("details", cube);
 });
 
+router.get("/:cubeId/attach-accessory", async (req, res) => {
+  const cube = await cubeManager.getOne(req.params.cubeId);
+  res.render("accessory/attachAccessory");
+});
+
 router.post("/create", async (req, res) => {
   const { name, description, imageUrl, difficultyLevel } = req.body;
 
