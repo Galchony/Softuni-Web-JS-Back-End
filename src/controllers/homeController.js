@@ -1,17 +1,17 @@
-const router = require('express').Router();
-const cubeManager = require('../managers/cubeManager')
+const router = require("express").Router();
+const cubeManager = require("../managers/cubeManager");
 
-router.get('/', async (req, res) => {
-const {search,from,to} = req.query;
+router.get("/", async (req, res) => {
+  const { search, from, to } = req.query;
 
-    const cubes = await cubeManager.getAll(search,from,to);
-    res.render('index', {cubes});
+  const cubes = await cubeManager.getAll(search, from, to);
+  res.render("index", { cubes });
 });
-router.get('/about', (req, res) => {
-    res.render('about');
+router.get("/about", (req, res) => {
+  res.render("about");
 });
-router.get('/404', (req, res) => {
-    res.render('404');
+router.get("/404", (req, res) => {
+  res.render("404");
 });
 
 module.exports = router;

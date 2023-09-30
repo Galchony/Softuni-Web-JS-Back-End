@@ -34,4 +34,4 @@ exports.getAll = async (search, from, to) => {
   return result;
 };
 
-exports.getOne = (cubeId) => Cube.findById(cubeId);
+exports.getOne = async (cubeId) => await Cube.findById(cubeId);

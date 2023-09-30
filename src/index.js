@@ -6,6 +6,7 @@ const dbConnect = require("./config/dbConfig");
 
 const homeController = require("./controllers/homeController");
 const cubeController = require("./controllers/cubeController");
+const accessoryController = require("./controllers/accessoryController");
 
 const app = express();
 const PORT = 6050;
@@ -13,17 +14,15 @@ const PORT = 6050;
 expressConfig(app);
 handlebarsConfig(app);
 
-// async function a() {
-//   return await dbConnect();
-// }
-// a();
 dbConnect()
   .then(() => {
     console.log("DB Connected successfully");
   })
   .catch((err) => console.log("DB error: ", err.message));
+
 app.use(homeController);
 app.use("/cubes", cubeController);
+app.use("/accessories", accessoryController);
 app.get("*", (req, res) => {
   res.redirect("/404");
 });
