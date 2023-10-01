@@ -35,6 +35,7 @@ exports.getAll = async (search, from, to) => {
 };
 
 exports.getOne = (cubeId) => Cube.findById(cubeId);
+exports.getOneWithAccessories = (cubeId) => this.getOne(cubeId).populate('accessories');
 
 exports.attachAccessory = async (cubeId, accessoryId) => {
  return Cube.findByIdAndUpdate(cubeId, {$push:{accessories: accessoryId}})

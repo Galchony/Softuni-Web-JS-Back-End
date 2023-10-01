@@ -19,8 +19,9 @@ router.post("/create", async (req, res) => {
 });
 
 router.get("/:cubeId/details", async (req, res) => {
-  const cube = await cubeManager.getOne(req.params.cubeId);
-  res.render("details", cube);
+  const cube = await cubeManager.getOneWithAccessories(req.params.cubeId).lean();
+  console.log((cube));
+  res.render("details", {cube});
 });
 
 router.get("/:cubeId/attach-accessory", async (req, res) => {
