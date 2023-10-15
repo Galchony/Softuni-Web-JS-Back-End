@@ -17,6 +17,9 @@ exports.create = async (cubeData) => {
   await cube.save();
   return cube;
 };
+exports.update = (cubeId, cubeData) => Cube.findByIdAndUpdate(cubeId, cubeData);
+exports.delete = (cubeId) => Cube.findByIdAndDelete(cubeId);
+
 exports.getAll = async (search, from, to) => {
   let result = await Cube.find().lean();
 
@@ -35,8 +38,11 @@ exports.getAll = async (search, from, to) => {
 };
 
 exports.getOne = (cubeId) => Cube.findById(cubeId);
-exports.getOneWithAccessories = (cubeId) => this.getOne(cubeId).populate('accessories');
+exports.getOneWithAccessories = (cubeId) =>
+  this.getOne(cubeId).populate("accessories");
 
 exports.attachAccessory = async (cubeId, accessoryId) => {
- return Cube.findByIdAndUpdate(cubeId, {$push:{accessories: accessoryId}})
+  return Cube.findByIdAndUpdate(cubeId, {
+    $push: { accessories: accessoryId },
+  });
 };
