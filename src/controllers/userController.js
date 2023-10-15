@@ -2,7 +2,7 @@ const router = require("express").Router();
 const userManager = require("../managers/userManager");
 
 router.get("/register", (req, res) => {
-  res.render("register");
+  res.render("user/register");
 });
 router.post("/register", (req, res) => {
   const { username, password, repeatPassword } = req.body;
@@ -10,7 +10,7 @@ router.post("/register", (req, res) => {
   res.redirect("/users/login");
 });
 router.get("/login", (req, res) => {
-  res.render("login");
+  res.render("user/login");
 });
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
