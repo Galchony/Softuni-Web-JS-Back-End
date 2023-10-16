@@ -1,15 +1,15 @@
 const router = require("express").Router();
 const cubeManager = require("../managers/cubeManager");
 const accessoryManager = require("../managers/accessoryManager");
-const {getDifficultyLevel} = require("../util/helpers");
+const { getDifficultyLevel } = require("../util/helpers");
+const { isAuth } = require("../middlewares/authMiddleware");
 
-router.get("/create", (req, res) => {
+router.get("/create", isAuth, (req, res) => {
   res.render("cube/create");
 });
 
 router.post("/create", async (req, res) => {
   const { name, description, imageUrl, difficultyLevel } = req.body;
-
   await cubeManager.create({
     name,
     description,
@@ -24,8 +24,8 @@ router.get("/:cubeId/details", async (req, res) => {
   const cube = await cubeManager
     .getOneWithAccessories(req.params.cubeId)
     .lean();
-    const isOwner = cube.owner?.toString() == req.user._id;
-    res.render("cube/details", { cube, isOwner });
+  const isOwner = cube.owner?.toString() == req.user._id;
+  res.render("cube/details", { cube, isOwner });
 });
 
 router.get("/:cubeId/attach-accessory", async (req, res) => {
@@ -52,20 +52,21 @@ router.get("/:cubeId/delete", async (req, res) => {
   const cube = await cubeManager.getOne(req.params.cubeId).lean();
   const options = getDifficultyLevel(cube.difficultyLevel);
 
-  res.render("cube/delete", { cube,options });
+  res.render("cube/delete", { cube, options });
 });
 router.post("/:cubeId/delete", async (req, res) => {
   await cubeManager.delete(req.params.cubeId);
   res.redirect("/");
 });
 
-
-router.get("/:cubeId/edit", async (req, res) => {
+router.get("/:cubeId/edit", isAuth, async (req, res) => {
   const cube = await cubeManager.getOne(req.params.cubeId).lean();
+  if (cube.owner.toString() !== req.user_id) {
+    res.redirect("/404");
+  }
   const options = getDifficultyLevel(cube.difficultyLevel);
   res.render("cube/edit", { cube, options });
 });
-
 
 router.post("/:cubeId/edit", async (req, res) => {
   const { name, description, imageUrl, difficultyLevel } = req.body;
