@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const cubeManager = require("../managers/cubeManager");
 const accessoryManager = require("../managers/accessoryManager");
-const { getDifficultyLevel } = require("../util/helpers");
+const { getDifficultyLevel } = require("../utils/viewHelpers");
 const { isAuth } = require("../middlewares/authMiddleware");
 
 router.get("/create", isAuth, (req, res) => {
